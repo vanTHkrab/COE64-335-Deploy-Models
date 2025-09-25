@@ -23,3 +23,8 @@ class SkModel:
         if hasattr(self.model, "predict_proba"):
             probs = self.model.predict_proba(X)[:, 1].tolist()
         return preds, probs
+
+    def get_features(self):
+        if hasattr(self.model, "feature_names_in_"):
+            return self.model.feature_names_in_.tolist()
+        return []
