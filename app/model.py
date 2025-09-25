@@ -9,6 +9,13 @@ def resolve_model_path(default="models/best_rf_model.joblib"):
     root = Path(__file__).resolve().parent.parent
     return (root / default).resolve()
 
+def sin_transform(month_value):
+    return np.sin(2 * np.pi * month_value / 12)
+
+
+def cos_transform(month_value):
+    return np.cos(2 * np.pi * month_value / 12)
+
 class SkModel:
     def __init__(self, path: str | None = None):
         model_path = resolve_model_path(path or "models/best_rf_model.joblib")
@@ -28,3 +35,7 @@ class SkModel:
         if hasattr(self.model, "feature_names_in_"):
             return self.model.feature_names_in_.tolist()
         return []
+
+    def get_model_info(self):
+        return str(self.model)
+
