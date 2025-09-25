@@ -1,8 +1,7 @@
 from pathlib import Path
 import os, joblib, numpy as np
 
-def resolve_model_path(default="models/clf.joblib"):
-    # อนุญาต override ด้วย ENV
+def resolve_model_path(default="models/best_rf_model.joblib"):
     env_path = os.getenv("MODEL_PATH")
     if env_path:
         return Path(env_path).resolve()
@@ -12,7 +11,7 @@ def resolve_model_path(default="models/clf.joblib"):
 
 class SkModel:
     def __init__(self, path: str | None = None):
-        model_path = resolve_model_path(path or "models/clf.joblib")
+        model_path = resolve_model_path(path or "models/best_rf_model.joblib")
         if not model_path.exists():
             raise FileNotFoundError(f"Model not found: {model_path}")
         self.model = joblib.load(model_path)

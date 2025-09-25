@@ -23,7 +23,6 @@ def read_root():
     return {"status": "ok"}
 @app.post("/predict")
 def predict(req: PredictRequest):
-    # แปลงเป็น 2D array [[prov_id, sin, cos]]
     features = [[req.PROV_ID, req.month_sin, req.month_cos]]
     preds, probs = sk.predict(features)
     return {"pred": preds[0], "prob": probs[0] if probs else None}
