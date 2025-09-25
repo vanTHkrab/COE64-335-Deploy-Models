@@ -1,0 +1,14 @@
+services:
+  ml-dev:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - ENVIRONMENT=development
+      - MODEL_PATH=/app/models/best_rf_model.joblib
+    volumes:
+      - ./app:/app/app
+      - ./models:/app/models:ro
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+

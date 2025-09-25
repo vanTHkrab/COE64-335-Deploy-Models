@@ -18,13 +18,11 @@ RUN pip install --upgrade pip && \
 
 # คัดซอร์สโค้ด
 COPY app ./app
-# คัดโมเดล (ถ้าอยาก mount ตอนรันก็ข้าม COPY นี้ได้)
 COPY models ./models
 
 # ========== Production ==========
 FROM base AS prod
-ENV MODEL_PATH=/app/models/clf.joblib
+ENV MODEL_PATH=/app/models/best_rf_model.joblib
 EXPOSE 8000
-# Gunicorn + UvicornWorker เหมาะกับ production
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", \
      "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "4", "--timeout", "60"]
