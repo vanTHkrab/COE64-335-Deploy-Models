@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 import os
 from typing import Dict, List
+import pandas as pd
 
 from app.schemas import PredictRequest
 from app.model import SkModel, sin_transform, cos_transform
@@ -181,7 +182,13 @@ def predict(req: PredictRequest):
     month_value = req.month_id
     month_sin = sin_transform(month_value)
     month_cos = cos_transform(month_value)
-    features = [[req.PROV_ID, month_sin, month_cos]]
+    # features = [[req.PROV_ID, month_sin, month_cos]]
+    features = pd.DataFrame([{
+        "PROV_ID": req.PROV_ID,
+        "month_sin": month_sin,
+        "month_cos": month_cos
+    }])
+
     preds, probs = sk.predict(features)
 
     # Get additional info for response
